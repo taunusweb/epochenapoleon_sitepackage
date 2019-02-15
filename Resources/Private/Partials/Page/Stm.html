@@ -1,0 +1,8 @@
+<f:if condition="{menuMain}">
+	<ul class="stm-menu" data-responsive-menu="accordion medium-dropbox">
+		<f:li each="{menuMain}" as="{mainItem}">
+			<f:render partial="Menu/Link" arguments="{item: mainItem}"/>
+		</f:li>
+		</f:for>
+	</ul>
+</f:if>

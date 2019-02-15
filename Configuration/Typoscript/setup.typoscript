@@ -1,0 +1,754 @@
+# Plugin COnfiguration
+plugin.tx_csseo {
+	sitetitle = EPOCHE NAOOLEON
+}
+plugin.tx_beaconizer_generator {
+	persistence {
+		ADWLM\Beaconizer\Domain\Model\GeneratedLinks {
+			mapping {
+				tableName = pages
+				columns {
+					source_identifier.mapOnProperty = sourceIdentifier
+				}
+			}
+		}
+	}
+}
+config.recordLinks.tx_news {
+	typolink {
+		# DetailPage
+		parameter =
+		additionalParams.data = field:uid
+		additionalParams.wrap = &tx_news_pi1[controller]=News&tx_news_pi1[action]=detail&tx_news_pi1[news]=|
+		useCacheHash = 1
+	}
+}
+
+plugin.tx_pbsocial {
+	settings {
+		load-jquery = 0
+	}
+}
+plugin.tx_news {
+	settings {
+		backPid = 25
+		linkPid = 25
+	}
+	detail {
+		showPrevNext = 1
+		showSocialShareButtons = 1
+
+		format = xml
+	}
+	list {
+		media {
+			image >
+			image {
+				maxWidth = 100
+				maxHeight = 100
+			}
+		}
+		rss {
+			channel {
+				title = EPOCHE NAPOLEON
+				description = Von der Französischen Revolution bis Waterloo
+				link = {$config.baseURL}
+				language = de_DE
+				copyright = © 	EPOCHE NAPOLEON 2003 - %Y
+			}
+		}
+		link {
+			SkipControllerAndAction = 1
+			hrDate = 1
+			hrDate {
+				year = Y
+				month = m
+				day = d
+			}
+		}
+		paginate {
+			itemsPerPage = 10
+			insertAbove = 1
+			insertBelow = 1
+			templatePath =
+			prevNextHeaderTags = 1
+			maximunNumberOfLinks = 3
+		}
+		analytics {
+			social {
+				facebookLike = 0
+				facebookShare = 0
+				twitter = 0
+			}
+		}
+	}
+	predefine.archive = +1 Month
+}
+
+plugin.tx_min.tinysource {
+	enable = 1
+	head {
+		stripTabs = 1
+		stripNewLines = 0
+		stripDoubleSpaces = 1
+		stripTwoLinesToOne = 1
+	}
+	body {
+		stripComments = 1
+		stripTabs = 1
+		stripNewLines = 1
+		stripDoubleSpaces = 1
+		stripTwoLinesToOne = 1
+		preventStripOfSearchComment = 1
+	}
+	oneLineMode = 1
+}
+
+plugin.tx_t3extblog {
+	persistence {
+		storagePid = 2
+	}
+	settings {
+		blogsystem {
+			pid = 6553
+		}
+	}
+}
+
+plugin.tx_ddgooglesitemap.tx_news {
+	skipControllerAndAction = 1
+	hrDate = 1
+	hrDate {
+		day = j
+		month = n
+		year = Y
+	}
+}
+
+# Lib Configuration
+lib.headerlogo = IMAGE
+lib.headerlogo {
+	file = {$temp.headerlogo.image}
+	altText = Logo von EPOCHE NAPOLEON - Hier klicken um jederzeit auf die Startseite zurück zukommen.
+	titleText = Logo von EPOCHE NAPOLEON
+	stdWrap.typolink.parameter = 1
+}
+/*
+lib.headernavigation = RECORDS
+lib.headernavigation {
+	tables = tt_content
+	source = 29025
+}
+*/
+lib.headerspace = TEXT
+lib.headerspace {
+	stdWrap.postCOoject = TEXT
+	stdWrap.postCOoject.char = 13
+
+}
+lib.mainmenu = HMENU
+lib.mainmenu {
+	entryLevel = 0
+	noBlur = 1
+	wrap = <nav id="menu"><ul class="mainnav"> | </ul></nav>
+
+	# Einträge für die oberste Menüebende
+	1 = TMENU
+	1 {
+		NO = 1
+		NO {
+			stdWrap.htmlSpecialChars = 1
+			#wrapItemAndSub = <li class="no"> | </li>
+			wrapItemAndSub = <li>|</li>
+		}
+	}
+	# Einträge für die 2. Menüebne
+	2 < .1
+	2 {
+		stdWrap {
+			if.value = 4
+			if.isLessThan.data = register:count_menuItems
+			wrap = <ul> | </ul>
+			required = 1
+		}
+		NO.wrapItemAndSub = <li class="no"> | </li>
+		ACT.wrapItemAndSub = <li class="act"> | </li>
+		CUR.wrapItemAndSub = <li class="cur"> | </li>
+	}
+}
+lib.pfadmenu = HMENU
+lib.pfadmenu{
+	special = rootline
+	special.range = 0 | -1
+	1 = TMENU
+	1 {
+		noBlur = 1
+		NO {
+			stdWrap.htmlSpecialChars = 1
+			doNotLinkIt = |*| 0 |*| 1
+			allWrap =  |*| |&nbsp;&#62;&nbsp;|*| |
+			stdWrap.crop = 25
+			linkWrap = <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">|</span>
+			ATagParams = itemprop="url"
+			stdWrap.wrap = <span itemprop="title">|</span>
+			stdWrap.crop = 25
+		}
+	}
+}
+
+lib.abcmenu = HMENU
+lib.abcmenu {
+	wrap = <div class="cM">|</div>
+	entryLevel = 1
+	1 = TMENU
+	1 {
+		expAll = 1
+		wrap = <ul>|</ul>
+		NO = 1
+		NO {
+			doNotLinkIt = 1
+			wrapItemAndSub = <li class="cM_NO">|</li>
+			stdWrap.cObject = COA
+			stdWrap.cObject {
+				10 = LOAD_REGISTER
+				10 {
+					Ziel = _self
+					Ziel.override.dataWrap = {field:target // TSFE:intTarget}
+				}
+				20 = TEXT
+				20 {
+					field = nav_title // title
+					typolink.parameter {
+						dataWrap = {field:alias // field:uid} {register:Ziel} typ{field:doktype}
+						if.isTrue.numRows {
+							table = tt_content
+							select.a.field = uid
+						}
+					}
+				}
+			}
+		}
+		ACT < .NO
+		ACT {
+			wrapItemAndSub = <li class="cM_ACT">|</li>
+		}
+		CUR < .NO
+		CUR {
+			wrapItemAndSub = <li class="cM_CUR">|</li>
+		}
+	}
+}
+
+lib.breadcrump = HMENU
+lib.breadcrump {
+	special = rootline
+	special.range = 0 | -1
+	1 = TMENU
+	1 {
+		noBlur = 1
+		NO {
+			stdWrap.htmlSpecialChars = 1
+			doNotLinkIt = |*| 0 |*| 1
+			allWrap =  |*| |&nbsp;&#62;&nbsp;|*| |
+			stdWrap.crop = 25
+			linkWrap = <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">|</span>
+			ATagParams = itemprop="url"
+			stdWrap.wrap = <span itemprop="title">|</span>
+			stdWrap.crop = 25
+		}
+		dataProcessing {
+			10 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+			10 {
+				special = directory
+				levels = 1
+				expandAll = 1
+				includeSpacer = 0
+				as = Teasermenu
+				titleField = nav_title \\title
+			}
+		}
+	}
+}
+
+lib.teasermenu = COA
+lib.teasermenu {
+	wrap = <div class="teasermenu">|</div>
+	10 = HMENU
+	10 {
+		special = directory
+		#    special.data = leveluid:-1,slide
+		1 = TMENU
+		1 {
+			// Sortierreihenfolge
+			// alternativeSortingField = tstamp DESC
+			// Anzahl der maximal dargestellten Menüeinträge
+			maxItems =
+			wrap = <ul>|</ul>
+
+			NO {
+				wrapItemAndSub = <li>|</li>
+				before.stdWrap.override.cObject = FILES
+				before.stdWrap.override.cObject {
+
+					references {
+						table = pages
+						fieldName = media
+						treatIdAsReference = 1
+						#            data = levelmeida:-1, slide
+					}
+					sorting = sorting_foreign
+
+					renderObj = IMAGE
+					renderObj {
+						file {
+							import {
+								data = file:current:publicUrl
+								listNum = 0
+							}
+
+							width = 75
+							height = 106
+						}
+
+						titleText.data = File:current:title // field:nav_title // field:title
+						altText.data = file:current:alternative // field:nav:title // field:title
+
+						imageLinkWrap = 1
+						imageLinkWrap {
+							enable = 1
+							typolink {
+								target =
+								parameter.field = uid
+								ATagParams = class="bildlink"
+							}
+						}
+					}
+
+					wrap = <li>|<li>
+					append = TEXT
+					append.value = <dl>
+				}
+
+				linkWrap = <dl><dt>|</dt>
+
+				after {
+					field = abstract
+					crop = 250 | ... | 1
+					wrap = <dd>|</dd>
+					append = TEXT
+					append.value = </dl><div class="clearer">&nbsp;</div>
+				}
+			}
+		}
+	}
+}
+
+lib.footer = TEXT
+lib.footer {
+	data = date:U
+	strftime = &copy;&nbsp;Copyright 2003 - %Y by EPOCHE NAPOLEON
+}
+lib.contentrating = RECORDS
+lib.contentrating {
+	tables = tt_content
+	source = 6409
+}
+lib.contentElement {
+	templateRootPaths {
+		20 = {$lib.contentElement.templateRootPaths}
+	}
+	partialRootPaths {
+		20 = {$lib.contentElement.partialRootPaths}
+	}
+	layoutRootPaths {
+		20 = {$lib.contentElement.layoutRootPaths}
+	}
+	setttings {
+		defaultHeaderType = 1
+	}
+}
+lib.lastchange = TEXT
+lib.lastchange {
+	data = register : SYS_LASTCHANGED
+	if.isTrue.data = register : SYS_LASTCHANGED
+	strftime = %d. %m. %Y - %H:%m
+	wrap = <div class="lastChange">Letzte Änderung der Seite:&nbsp;|</div>
+}
+config {
+	absRefPrefix = {$config.absRefPrefix}
+	baseURL = {$config.baseURL}
+	admPanel = {$config.admPanel}
+
+	debug = 1
+	# Message during Page Rendering
+	message_page_is_being_generated = Bitte haben Sie einen Moment Geduld, die Seite ###TITLE### wird gerade neu generiert.
+	message_preview = Vorschau
+	message_preview_workspace = Vorschau WORKSPACE
+
+	# Country Configuration
+	sys_language_uid = 0
+	sys_language_isocode_default = de
+	language = de
+	locale_all = de_DE.utf8
+	htmlTag_langKey = de-DE
+	metaCharset = utf-8
+	linkVars = L(0)
+
+	doctype = html5
+	xmlprologue = none
+	htmlTag_langKey = DE
+	noPageTitle = 0
+	disableAllHeaderCode = 0
+	disablePrefixComment = {$entwicklung}
+	inlineStyle2TempFile = 1
+
+	cache_clearAtMidnight = {$entwicklung}
+	cache_period = 86400
+	sendCacheHeaders = 1
+
+	spamProtectEmailAddresses = ascii
+	spamProtectEmailAddresses_atSubst = (at)
+	spamProtectEmailAddresses_lastDotSubst = (dot)
+
+	tx_realurl_enable = 1
+
+	recordLinks {
+		tx_news {
+			typolink {
+				parameter = {$plugin.tx_news.settings.defaultDetailPid}
+				additionalParams.data = field:uid
+				additionalParams.wrap = &tx_news_pi1[controller]=News&news_pi1[action]=detail&news_pi1[news]=|
+				useCacheHash = 1
+				ATag.Params.data = parameters:allParams
+				target.data = parameters:target
+				title.data = parameters:title
+				extTarget = _blank
+				extTarget.override.data = parameters:target
+			}
+			tx_csevents < .tx_news
+			tx_csevents {
+				typolink {
+					parameter = {$plugin.tx_csevents.settings.detailPid}
+				}
+				forceLink = 1
+			}
+			tx_cshosts < .tx_news
+			tx_cshosts {
+				typolink {
+					parameter = {$plugin.tx_cshosts_pi1.settings.detailPid}
+					additionalParams.wrap = &tx_cshosts_pi1[controller]=Host&tx_cshosts_pi1[action]=show&tx_cshosts_pi1[host]=|
+				}
+			}
+		}
+	}
+}
+
+tt_content.list.20.rxshariff_shariff {
+	settings {
+		enableBackend = 1
+		data {
+			lang = en, en
+			mail-body = Hier können Sie ihre Nachricht schreiben.
+			mail-subject = Teile die Seite EPOCHE NAPOLEON
+			mail-url = mailto:redaktion@epoche-napoleon.net
+			media-url =
+			orientation = horizontal
+			referrer-track =
+			services = facebook,googleplus,xing,linkedin,pinterest,qzone,flipboard,tumblr,flattr,diaspora,reddit,stumbleupon,weibo,tencent-weibo,vk,whatsapp,threema,telegram,print,info
+			theme = standard
+			twitter-via = EPOCHENAPOLEON
+			button-style = icon-count
+		}
+	}
+}
+
+styles.content {
+	# Get content left
+	getLeft < styles.content.get
+	getLeft.select.where = colPos=1
+	# Get content right
+	getRight < styles.content.get
+	getRight.select.where = colPos=2
+}
+
+# Pageobjekt
+page = PAGE
+page {
+	typeNum = 0
+
+	config {
+		headerComment (
+ 			Diese Seite wurde von
+   			Michael Gnessner
+   			Postfach 10 02 61
+   			47051 Duisburg
+   			http://www.epoche-napoleon.net/
+   			Email: info@epoche-napoleon.net
+ 			erstellt.
+		)
+		doctype = html5
+		xmlprologue = none
+		htmlTag_langKey = DE
+		noPageTitle = 2
+		disableAllHeaderCode = 0
+		disablePrefixComment = {$entwicklung}
+		inlineStyle2TempFile = 1
+
+		moveCssFromHeaderToFooter = 1
+		moveJSFromHeaderToFooter = 1
+	}
+
+	compressCss = 1
+	concatenateCss = 1
+	meta {
+		viewpoort = width=device-width, initial-scale = 1, maximum-sclae=1, user.scalable = yes
+	}
+
+	headerData {
+		80 = TEXT
+		80 {
+			value = <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+		}
+		90 < lib.headerspace
+		100 = TEXT
+		100 {
+			stdWrap = <meta property="fb:app_id" content="1482263302028739">
+		}
+		110 < lib.headerspace
+
+		120 = IMG_RESOURCE
+		120 {
+			stdWrap.wrap = <link rel="apple-touch-icon" sizes="180x180" href="|">
+			file = {$temp.favicon.image}/apple-touch-icon.png
+		}
+		130 < lib.headerspace
+		140 = IMG_RESOURCE
+		140 {
+			stdWrap.wrap = <link rel="icon" type="image/png" sizes="32x32" href="|">
+			file = {$temp.favicon.image}/favicon-32x32.png
+		}
+		150 < lib.headerspace
+		160 = IMG_RESOURCE
+		160 {
+			stdWrap.wrap = <link rel="icon" type="image/png" sizes="192x192" href="|">
+			file = {$temp.favicon.image}/android-chrome-192x192.png
+		}
+		170 < lib.headerspace
+		180 = IMG_RESOURCE
+		180 {
+			stdWrap.wrap = <link rel="icon" type="image/png" sizes="16x16" href="|">
+			file = {$temp.favicon.image}/favicon-16x16.png
+		}
+		190 < lib.headerspace
+		200 = FILE
+		200 {
+			stdWrap.wrap = <link rel="manifest" href="|">
+			value = {$temp.favicon.image}/site.webmanifest
+		}
+		210 < lib.headerspace8
+		220 = IMG_RESOURCE
+		220 {
+			stdWrap.wrap = <link rel="mask-icon" href="|" color="#000000">
+			file = {$temp.favicon.image}/safari-pinned-tab.svg
+		}
+		230 < lib.headerspace
+		240 = IMG_RESOURCE
+		240 {
+			stdWrap.wrap = <link rel="shortcut icon" href="|">
+			file = {$temp.favicon.image}/favicon.ico
+		}
+		250 < lib.headerspace
+		260 = TEXT
+		260 {
+			value = <meta name="msapplication-TileColor" content="#000066">
+		}
+		270 < lib.headerspace
+		280 = IMG_RESOURCE
+		280 {
+			stdWrap.wrap = <meta name="msapplication-TileImage" content="|">
+			file = {$temp.favicon.image}/mstile-144x144.png
+		}
+		290 < lib.headerspace
+		300 = TEXT
+		300 {
+			stdWrap.wrap = <meta name="msapplication-config" content="|">
+			data.value = {$temp.favicon.image}/browserconfig.xml
+		}
+		310 < lib.headerspace
+		320 = TEXT
+		320.value = <meta name="theme-color" content="#000066">
+		330 < lib.headerspace
+	}
+
+	includeCSS {
+		file01 = EXT:epochenapoleon_sitepackage/Resources/Public/Css/epochenapoleon.css
+		file01 {
+			media = screen
+			forceOnTop = 0
+			disableCompression = 1
+			excludeFromConcatenation = 0
+		}
+		/*
+		file02 = EXT:epochenapoleon_sitepackage/Resources/Public/Fonts/all.min.css
+		file02 {
+			forceOnTop = 1
+			excludeFromConcatenation = 0
+		}
+		*/
+	}
+		# Clear jQuery integration from EXT:contentrating
+	includeJSFooterlibs {
+		jquery_content_rating =
+		file01 = https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+		file01 {
+			async = 0
+			disalbeCompression = 1
+			excludeFromConcatenation = 1
+			forceOnTop = 1
+			integrity = sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT
+		}
+		file02 = EXT:bootstrap_grids/Resources/Public/Flexslider2/jquery.flexslider.js
+	}
+	10 = FLUIDTEMPLATE
+	10 {
+		templateName = Default
+		templateRootPaths {
+			0 = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/Page
+			1 = {$page.fluidtemplate.10.templateRootPath}
+		}
+		layoutRootPaths {
+			0 = EXT:epochenapoleon_sitepackage/Resources/Private/Layouts/Page
+			1 =	{$page.fluidtemplate.10.layoutRootPath}
+		}
+		partialRootPaths {
+			0 = EXT:epochenapoleon_sitepackage/Resources/Private/Partials/Page
+			1 = {$page.fluidtemplate.10.partialRootPath}
+		}
+		dataProcessing {
+			10 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
+			10 {
+				special = directory
+				special.value = 29
+				levels = 1
+				as = Stm
+				expandAll = 1
+				titleField = nav_title // title
+			}
+		}
+		variables {
+			header < lib.header
+			headerlogo < lib.headerlogo
+			headernavigation < lib.headernavigation
+			menu < lib.mainmenu
+			pfad < lib.pfadmenu
+			abcmenu < lib.abcmenu
+			content < styles.content.get
+			teasermenu < lib.teasermenu
+			asidecontent < styles.content.getRight
+			socialsharebutton < plugin.shariffBackendUrl
+			lastUpdate < lib.lastchange
+			footer < lib.footer
+			contentrating < lib.contentrating
+
+			abcmenushow = TEXT
+			abcmenushow.value = {$abcmenushow}
+		}
+	}
+}
+
+[PIDinRootline = 31] && [treeLevel = 5,6]
+	page.10.variables.cagmenu < lib.cagpagebrowser
+[global]
+
+[PIDinRootline = 6477,6463,6455,6437,6431,6385,6688] && [treeLevel = 4]
+	page.10.variables.cagmenu < lib.cagpagebrowser
+	lib.cagpagebrowser.10.special.items = first | prev | up | next | last |
+[global]
+
+[globalVar = TSFE:type = 1789]
+	plugin.tx_beaconizer_generator {
+		view {
+			layoutRootPaths.10 = EXT:beaconizer/Resources/Private/BEACON/Layouts/
+			partialRootPaths.10 = EXT:beaconizer/Resources/Private/BEACON/Partials/
+			templateRootPaths.10 = EXT:beaconizer/Resources/Private/BEACON/Templates/
+		}
+	}
+
+	# disable outer wraps for tt_content
+	tt_content.stdWrap >
+	lib.stdheader >
+
+[global]
+[globalVar = TSFE:type = 9818]
+	config {
+		disableAllHeaderCode = 1
+		xhtml_cleaning = none
+		admPanel = 0
+		debug = 0
+		disablePrefixComment = 1
+		metaCharset = utf-8
+		# before CMS 8 (adjust if using ATOM)
+		additionalHeaders = Content-Type:application/rss+xml;charset=utf-8
+		# CMS 8 (adjust if using ATOM)
+		additionalHeaders.10.header = Content-Type:application/rss+xml;charset=utf-8
+		absRefPrefix = {$plugin.tx_news.rss.channel.link}
+	}
+
+	pageNewsRSS = PAGE
+	pageNewsRSS {
+		typeNum = 9818
+		10 < tt_content.list.20.news_pi1
+		10 {
+			switchableControllerActions {
+				News {
+					1 = list
+				}
+			}
+			settings < plugin.tx_news.settings
+			settings {
+				// categories = 9
+				// categoryConjunction = notor
+				limit = 30
+				detailPid = 28
+				startingpoint = 4459
+				format = xml
+			}
+		}
+	}
+
+[global]
+
+[globalVar = TSFE:type = 9819]
+	config {
+		disableAllHeaderCode = 1
+		xhtml_cleaning = none
+		admPanel = 0
+		metaCharset = utf-8
+		additionalHeaders = Content-Type:text/calendar;charset=utf-8
+		disablePrefixComment = 1
+	}
+
+	pageNewsICalendar = PAGE
+	pageNewsICalendar {
+		typeNum = 9819
+		10 < tt_content.list.20.news_pi1
+		10 {
+			switchableControllerActions {
+				News {
+					1 = list
+				}
+			}
+			settings < plugin.tx_news.settings
+			settings {
+				// categories = 9
+				// categoryConjunction = notor
+				limit = 30
+				detailPid = 28
+				startingpoint = 19
+				format = ical
+				domain.data = getEnv:HTTP_HOST
+				useStdWrap = domain
+			}
+		}
+	}
+[global]

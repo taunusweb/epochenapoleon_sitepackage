@@ -1,0 +1,210 @@
+// DEPENDENCIES
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:fluid_styled_content/Configuration/TypoScript/constants.txt">
+
+lib.contentElement {
+	templateRootPaths = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/fluid_styled_content/
+	partialRootPaths = EXT:epochenapoleon_sitepackage/Resources/Private/Partials/fluid_styled_content/
+	layoutRootPaths = EXT:epochenapoleon_sitepackage/Resources/Private/Layouts/fluid_styled_content/
+}
+
+# System Variables
+abcmenushow = 0
+entwicklung = 0
+teasermenushow = 0
+
+styles {
+	content {
+		links {
+			extTarget = _blank
+		}
+		templates {
+			partialRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Partials/fluid_styled_content
+		}
+		defaultHeaderType = 1
+		textmedia {
+			maxW = 600
+			maxWInText = 300
+			columnSpacing = 5
+			rowSpacing = 5
+			textMargin = 5
+			borderPadding = 1
+			linkWrap {
+				lightboxEnabled = 1
+				lightboxRelAttribute = lightbox[{field:uid}]
+				lightboxCssClass = light-box
+				newWindow = 1
+				width = 1024
+				height = 768
+			}
+		}
+	}
+
+}
+
+
+# Global Configuration
+config {
+	admPanel = 1
+	baseURL = http://p410698.mittwaldserver.info/
+	absRefPrefix = http://p410698.mittwaldserver.info/
+
+	#baseURL = http://www.epoche-napoleon.net
+	#absRefPrefix = http://www.epoche-napoleon.net
+}
+
+# Fluidstyled Content
+page {
+	fluidtemplate {
+		10 {
+			templateRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/Page/
+			layoutRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Layouts/Page/
+			partialRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Partials/Page/
+			}
+	}
+}
+# Logo der Website
+temp.headerlogo.image = EXT:epochenapoleon_sitepackage/Resources/Public/Images/logo.jpg
+temp.favicon.image = EXT:epochenapoleon_sitepackage/Resources/Public/Favicon/
+
+# Plugin EPOCHE NAPOLEON CE Normdata
+plugin.tx_epochenapoleoncenormdata {
+	view {
+		templateRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/Ce_Normdata/
+		partialRootPath = EXT:epochenapoleon_sitepackage/Ressources/Private/Partials/Ce_Normdata/
+		layoutRootPath = EXT:epochenapoleon_sitepackage/Ressources/Private/Layouts/Ce_Normdata/
+	}
+}
+
+# EXTENSION Configuration
+
+plugin.tx_gridelements_pi >
+tt_content.gridelements_pi1 >
+tt_content.gridelements_pi = COA
+tt_content.gridelements_pi {
+	10 =< lib.stdheader
+	20 = COA
+	20 {
+		10 = USER
+		10 {
+			userFunc = GridElementsTeam\Gridelemnts\Plugin\Gridelements->main
+			setup {
+				default < lib.gridelements.defaultGridSetup
+			}
+		}
+	}
+}
+
+plugin.tx_t3extblog {
+	settings {
+		blogsystem.pid = 6553
+		blogName = EPOCHE NAPOLEON Blog
+
+		emailTo = michael@epoche-napoleon.nete
+		emailFrom = michael@epoche-napoleon.net
+
+		twitterName = EPOCHE NAPOLEON
+		subscriptionManager.pid = 6674
+	}
+	persistence.storagePid = 2
+}
+
+plugin.tx_contentratingextbase {
+	view {
+		templateRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/Contentrating
+		layoutRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Layouts/Contentrating
+		partialRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Partials
+	}
+	persistence.storagePid =
+}
+
+plugin.tx_csseo {
+	sitetitle = EPOCHE NAPOLEON
+	tracking {
+		googleAnalytics  = UA-50240478-1
+	}
+	hreflang.enable = 0
+
+	sitemap {
+		pages {
+			languageUids = 0
+			doktypes = 1
+		}
+		extensions {
+			news {
+				languageUids = 0
+				storagePid = 19
+				detailPid = 28
+			}
+		}
+	}
+	social {
+		defaultImage = EXT:epochenapoleon_sitepackage/Resources/Public/Images/logo.png
+		twitter {
+			defaultImage = EXT:epochenapoleon_sitepackage/Resources/Public/Images/logo.png
+		}
+	}
+}
+
+plugin.tx_news {
+	view {
+		twb {
+			templateRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Templates/News/
+			layoutRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Layouts/News
+			partialRootPath = EXT:epochenapoleon_sitepackage/Resources/Private/Partials/News
+		}
+	}
+	settings {
+		sitemap {
+			startingpoint = 19
+			detailPid = 28
+			hidePagination = 0
+		}
+	}
+	list {
+		paginate {
+			itemsPerPage = 10
+		}
+	}
+	rss {
+		channel {
+			link = http://www.epoche-napoleon.net
+		}
+	}
+}
+
+plugin.tx_mindshapecookiehint {
+	settings {
+		style = dark
+		position = bottom
+		readmore =
+		appendToBottom = 0
+	}
+	_LOCAL_LANG {
+		hint.learnmore = More Info
+		hint.dismiss = Got It!
+		hint.message = This website uses cookies to ensure you get the best experience on our website.
+
+	}
+	_LOCAL_LANG.de {
+		hint.learnmore = Weitere Informationen
+		hint.dismiss = OK!
+		hint.message = Diese Website verwendet Cookies, um die Bedienkonfort zu erhöhen.
+	}
+}
+
+plugin.tx_gomapsext {
+	settings {
+		apiKey = AIzaSyB_WRZCZPHTr78TBoj0Mo_lw-cS7maL48M
+	}
+}
+
+plugin.tx_pbsocial {
+	view {
+		templateRootPath = EXT:pb_social/Resources/Private/Templates
+		layoutRootPath = EXT:pb_social/Resources/Private/Layouts
+		partialRootPath = EXT:pb_social/Resources/Private/Partials
+	}
+}
+
+
+
