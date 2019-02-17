@@ -1,3 +1,4 @@
+<f:debug>{_all}</f:debug>
 <header id="headerheight">
 	<div id="pageheader">
 		<div id="logo" >
@@ -9,9 +10,7 @@
 			<hr />
 			<p id="headertitle2">von der Bastille bis Waterloo</p>
 		</div>
-
 		<div id="stm">
-			<f:render partial="stm" arguments="stm: stm"/>
-		</div>
+			<f:render partial="stm" arguments="{_all}"/>
 	</div>
 </header>

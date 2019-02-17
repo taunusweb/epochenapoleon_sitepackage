@@ -1,0 +1,17 @@
+<f:if condition="{item.spacer} || {item.current}">
+	<f:then>
+		<li class="{f:if(condition:item.current, then: 'current')}{f:if(condition:item.spacer, then:'spacer')}">
+			<f:render partial="link" arguments="{item.item}"/>
+		</li>
+	</f:then>
+	<f:else if="{item.active}">
+		<li class="{f:if(condition:item.active, then 'active')}">
+			<f:render partial="link" arguments="{item.item}"/>
+		</li>
+	</f:else>
+	<f:else>
+		<li>
+			<f:render partial="link" arguments="{item.item}"></f:render>
+		</li>
+	</f:else>
+</f:if>

@@ -4,7 +4,7 @@
 	font-size: 16px;
 }
 body {
-	background: #ee0000;
+	background: #FF6600;
 	color: #333;
 	text-align: justify;
 	font-size: 62.5%;
@@ -33,7 +33,6 @@ header #headerheight {
 	height: 110px;
 	margin: 0;
 	order: 1;
-	background: #e00000;
 }
 #logo .logo {
 	border: 0;
@@ -85,7 +84,7 @@ header #headerheight {
 	display: flex;
 	flex-flow: row nowrap;
 	align-items: flex-start;
-	justify-content: space-between;
+	justify-content: start;
 	width: 100%;
 }
 #left {
@@ -138,16 +137,135 @@ footer {
 	text-decoration: none;
 	font-weight: bold;
 }
+#menu {
+	/*
+	margin-left: -1.5rem;
+	 */
+	margin-top: 0.5rem;
+}
+/* Content Mainmenu */
+ul.mainnav li {
+	margin-bottom: 0.2rem;
+	margin-left: 0;
+	list-style: none inside;
+	font-size: 0.9rem;
+	border: #000099 solid 1px;
+}
+ul.mainnav li ul li {
+	margin-bottom: 0;
+}
+ul.mainnav li a {
+	display: block;
+	text-decoration: none;
+}
+ul.mainnav li a:link,
+ul.mainnav li ul li a:link {
+	border: #E1E8F1 solid 0.5rem;
+	color: #000099;
+	background: #E1E8F1;
+
+}
+ul.mainnav li a:visited,
+ul.mainnav li ul li:visited,
+ul.mainnav li a:focus,
+ul.mainnav li ul li a:focus {
+	background: #FFFFCC;
+	color: #000099;
+	border: #FFFFCC solid 0.5rem;
+}
+ul.mainnav li a:hover,
+ul.mainnav li ul li:hover,
+ul.mainnav li a:active,
+ul.mainnav li ul li a:active {
+	background: #FFFFCC;
+	color: #000099;
+	border: #FFFFCC solid 0.5rem;
+}
+/* Alphabetical Navigation */
+#abcmenu {
+	margin-bottom: 1.0rem;
+}
+.cM {
+	margin-top: 1.0rem;
+	list-style: none inside;
+	display: block;
+	color: #FFFFFF;
+	background: #000099;
+	border-right: 3px solid #e00000;
+	border-left: 3px solid #e00000;
+	text-align: center;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	margin-bottom: 1.0rem;
+}
+.cM li.cM_NO,
+.cM li.cM_ACT,
+.cM li.cM_CUR {
+	border: 1px solid #000099;
+	display: inline;
+	background: #000099;
+	margin-left: 0;
+}
+.cM_NO a,
+.cM_NO a:link,
+.cM_NO a:visited,
+.cM_NO A:focus {
+	color: #FFCC33;
+	text-decoration: none;
+	border: 3px solid #000099;
+}
+.cM_CUR a,
+.cM_CUR a:link,
+.cM_CUR a:visited,
+.cM_CUR a:hover,
+.cM_CUR A:focus,
+.cM_NO a:active,
+.cM_NO a:hover {
+	color: #000099;
+	background: #FFFFCC;
+	border: 3px solid #FFFFCC;
+}
+nav dl.csc-menu-4 {
+	border-left: 1px solid #0033FF;
+	border-right: 3px solid #0033FF;
+	border-bottom: 3px solid #0033FF;
+}
+nav dl.csc-menu-4 dt {
+	border-top: 1px solid #0033FF;
+	font-size: 1rem;
+	font-style: italic;
+}
+.align-right {
+	text-align: right;
+}
+.align-left {
+	text-align: left;
+}
+.align-center {
+	text-align: center;
+}
+.align-justify {
+	text-align: justify;
+}
 
 h1 {
 	text-align: center;
 	font-size: 1.4rem;
 	line-height: 1.5rem;
+	margin-bottom: 1.4rem;
 }
 h2 {
 	text-align: center;
 	font-size: 1.3rem;
 	line-height: 1.5rem;
+	margin-bottom: 1.3rem;
+}
+h1 + h2 {
+	margin-bottom: 0.1rem;
+	font-size: 1rem;
+	font-style: italic;
+	color: #000000;
+	margin-bottom: 1rem;
 }
 h3 {
 	text-align: center;
@@ -166,16 +284,15 @@ p, ul, ol {
 	line-height: 1.4rem;
 	margin-bottom: 0.9rem;
 }
- ul li a {
-	display: block;
+ul {
 	text-decoration: none;
+	list-style: disc inside none;
+	margin-left: 1rem;
 }
 blockquote {
 	margin: 0 1rem;
-	background: #ffffc7;
-	color: #000033;
 }
-q {
+blockquote, q {
 	background: #ffffc7;
 	font-style: italic;
 	color: #000033;
@@ -203,9 +320,44 @@ figcaption {
 	color: #000066;
 	background: #E1E1F1;
 }
+div.person {
+	margin-top: 0.5rem;
+}
+
+h4.person {
+	text-align: center;
+	color: #FFCC33;
+	background: #000099;
+	margin: 0 0 0.3rem 0;
+}
+
+.person-cat {
+	padding: 0.2rem;
+	background: #000099;
+	color: #FFCC33;
+	display: inline-block;
+	width: 6rem;
+}
+.person-link, .person-nolink {
+	padding: 0.2rem;
+	text-align: left;
+}
+.person-link a {
+	text-decoration: none;
+}
+.person-nolink {
+	color: #E00000;
+}
+.person-entry {
+	background: #C0C0C0;
+	margin: 0;
+}
 .lastChange {
 	line-height: 0.8rem;
 	font-size: 0.8rem;
 	font-style: italic;
 	text-align: right;
+}
+.test {
+	background: #E00000;
 }

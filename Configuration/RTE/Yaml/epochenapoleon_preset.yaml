@@ -27,8 +27,6 @@ editor:
       - { name: "Mittig", element: ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'blockquote', 'td', 'th'], attributes: { class: 'align-center' } }
       - { name: "Rechtsbündig", element: ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'blockquote', 'td', 'th'], attributes: { class: 'align-right' } }
       - { name: "Blocksatz", element: ['h1', 'h2', 'h3', 'h4', 'h5', 'p', 'blockquote', 'td', 'th'], attributes: { class: 'align-justify' } }
-      - { name: "Bodytext", element: 'p', attributes: { class: 'bodytext'} }
-
 
     format_tags: "p;h2;h3;h4;h5"
 

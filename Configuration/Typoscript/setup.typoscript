@@ -627,14 +627,15 @@ page {
 		dataProcessing {
 			10 = TYPO3\CMS\Frontend\DataProcessing\MenuProcessor
 			10 {
-				special = directory
+				special = list
 				special.value = 29
-				levels = 1
+				levels = 2
 				as = Stm
 				expandAll = 1
 				titleField = nav_title // title
 			}
 		}
+
 		variables {
 			header < lib.header
 			headerlogo < lib.headerlogo
