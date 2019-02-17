@@ -630,7 +630,7 @@ page {
 				special = list
 				special.value = 29
 				levels = 2
-				as = Stm
+				as = stm
 				expandAll = 1
 				titleField = nav_title // title
 			}
